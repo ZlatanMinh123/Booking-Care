@@ -1,12 +1,14 @@
 import express from "express";
+import homeController from "../controllers/homeController";
 
-let router = express.Router();
+let router = express.Router(); // Khởi tạo Router
 
 let initWebRouter = (app) => {
-    router.get("/", (req, res) => {
-        return res.send("Welcome to the Web Server!");
-    });
+    router.get("/", homeController.getHomePage);
+    router.get("/about", homeController.getAboutPage);
+
     return app.use("/", router);
 };
 
 module.exports = initWebRouter;
+
