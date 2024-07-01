@@ -5,6 +5,7 @@ import bodyParser from "body-parser"; // Đây là thư viện hỗ trợ chúng
 
 import viewEngine from "./config/viewEngine";
 import initWebRouter from "./route/web";
+import connectDB from "./config/connectDB";
 require("dotenv").config(); // dòng này giúp chạy đc dòng let port = process.env.PORT...
 
 let app = express();
@@ -18,10 +19,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // Khai báo body-parser
 viewEngine(app); // config view engine
 initWebRouter(app); // config router
 
+connectDB(); // connect to database  // dòng này để kết nối đến database
+
 let port = process.env.PORT || 6969;
 
 app.listen(port, () => {
     console.log("Server is running on port: " + port);
 });
-
-
