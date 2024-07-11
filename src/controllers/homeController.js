@@ -26,14 +26,39 @@ let postCRUD = async (req, res) => {
     return res.send("post CRUD from server");
 };
 
+// Hàm này được gọi khi truy cập router /get-crud => render ra bảng data trên trình duyệt
 let displayGetCRUD = async (req, res) => {
+    // Hàm getAllUser() lấy ra tất cả dữ liệu user trong db và gán = biến data
     let data = await CRUDService.getAllUser();
-    console.log("---------------");
-    console.log(data);
-    console.log("---------------");
-
     return res.render("displayCRUD.ejs", {
         dataTable: data,
+    });
+};
+
+let getEditCRUD = async (req, res) => {
+    // Lấy ra id (id=1, id=2,...) và lưu vào biến userId
+    let userId = req.query.id;
+    // Đây là câu lệnh để kiểm tra xem có tìm thấy id hay k
+    if (userId) {
+        // Nếu tìm thấy, thì lấy thông tin user theo id và trả về cho client(trình duyệt)
+        let userData = await CRUDService.getUserInfoById(userId);
+        return res.render("editCRUD.ejs", {
+            user: userData,
+        });
+    } else {
+        // Nếu không tìm thấy, trả về thông báo: không tìm thấy user
+        return res.send("Users not found!");
+    }
+};
+
+// Hàm putCRUD xử lý khi truy cập vào router /put-crud (khi ta nhấn nút Update)
+let putCRUD = async (req, res) => {
+    // Tạo biến data - chứa dữ liệu được gửi từ form
+    let data = req.body;
+    // Hứng kết quả từ hàm updateUserData
+    let allUsers = await CRUDService.updateUserData(data);
+    return res.render("displayCRUD.ejs", {
+        dataTable: allUsers,
     });
 };
 
@@ -43,4 +68,6 @@ module.exports = {
     getCRUD: getCRUD,
     postCRUD: postCRUD,
     displayGetCRUD: displayGetCRUD,
+    getEditCRUD: getEditCRUD,
+    putCRUD: putCRUD,
 };

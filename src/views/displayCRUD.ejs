@@ -13,6 +13,62 @@
         border: 1px solid black;
         border-collapse: collapse;
     }
+
+    /* btn edit  */
+    .btn-edit {
+        outline: none;
+        border: none;
+        display: inline-block;
+        text-decoration: none;
+        line-height: 25px;
+        background-color: #688beb;
+        color: aliceblue;
+        height: 25px;
+        width: 60px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        top: 0;
+        text-align: center
+    }
+
+    .btn-edit:hover {
+        background: #35509b;
+    }
+
+    .btn-edit:active {
+        top: 3px;
+        box-shadow: 0 0 0 #4d6cb3;
+    }
+
+    /* btn delete  */
+    .btn-delete {
+        outline: none;
+        border: none;
+        display: inline-block;
+        text-decoration: none;
+        line-height: 25px;
+        background: #ed5961;
+        color: aliceblue;
+        height: 25px;
+        width: 60px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        top: 0;
+        text-align: center
+    }
+
+    .btn-delete:hover {
+        background: #e30f0f;
+    }
+
+    .btn-delete:active {
+        top: 3px;
+        box-shadow: 0 0 0 #ed5961;
+    }
 </style>
 
 <body>
@@ -23,9 +79,11 @@
                 <th>Firstname</th>
                 <th>Lastname</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Address</th>
+                <th>Actions</th>
             </tr>
+
+            <!-- Biến dataTable là 1 mảng chứa dữ liệu các user -->
             <% for(let i=0; i < dataTable.length; i++) { %>
                 <tr>
                     <td>
@@ -37,11 +95,13 @@
                     <td>
                         <%= dataTable[i].email %>
                     </td>
-                    <td>
-                        <%= dataTable[i].password %>
-                    </td>
+
                     <td>
                         <%= dataTable[i].address %>
+                    </td>
+                    <td>
+                        <a href="/edit-crud?id=<%= dataTable[i].id %>" class="btn-edit" type="button">Edit</a>
+                        <a class="btn-delete" type="button">Delete</a>
                     </td>
                 </tr>
                 <% } %>
