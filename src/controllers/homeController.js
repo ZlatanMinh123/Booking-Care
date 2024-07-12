@@ -57,9 +57,22 @@ let putCRUD = async (req, res) => {
     let data = req.body;
     // Hứng kết quả từ hàm updateUserData
     let allUsers = await CRUDService.updateUserData(data);
+    // Hiển thị bảng data user ra trình duyệt
     return res.render("displayCRUD.ejs", {
+        // Tạo biến dataTable - chứa tất cả bản ghi của user trong db
         dataTable: allUsers,
     });
+};
+
+// Hàm deleteCRUD xử lý khi truy cập vào router /delete-crud (khi ta nhấn nút Delete)
+let deleteCRUD = async (req, res) => {
+    let id = req.query.id;
+    if (id) {
+        await CRUDService.deleteUserById(id);
+        return res.send("Delete User Successful");
+    } else {
+        return res.send("Not Found a User");
+    }
 };
 
 module.exports = {
@@ -70,4 +83,5 @@ module.exports = {
     displayGetCRUD: displayGetCRUD,
     getEditCRUD: getEditCRUD,
     putCRUD: putCRUD,
+    deleteCRUD: deleteCRUD,
 };

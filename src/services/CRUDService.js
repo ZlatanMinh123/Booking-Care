@@ -64,15 +64,22 @@ let getUserInfoById = async (userId) => {
     }
 };
 
+// Hàm dùng để update thông tin user trong db
+// Trả về tất cả bản ghi của user trong db
 let updateUserData = async (data) => {
     try {
+        // Tạo biến user - chứa thông tin của user data cần update trong db
         let user = await db.User.findOne({
+            // id trong db <- id trên router trình duyệt
             where: { id: data.id },
         });
+        // Nếu tồn tại biến user (có dữ liệu của bản ghi trong db) thì
+        // update thông tin của user
         if (user) {
             user.firstName = data.firstName;
             user.lastName = data.lastName;
             user.address = data.address;
+            // Lưu thông tin
             await user.save();
         } else {
             throw new Error(`User with id ${data.id} not found`);
@@ -85,9 +92,26 @@ let updateUserData = async (data) => {
     }
 };
 
+//
+let deleteUserById = async (userId) => {
+    try {
+        let user = await db.User.findOne({
+            // id trong db <- id trên router trình duyệt
+            where: { id: userId },
+        });
+        if (user) {
+            await user.destroy();
+        }
+        return;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 module.exports = {
     createNewUser: createNewUser,
     getAllUser: getAllUser,
     getUserInfoById: getUserInfoById,
     updateUserData: updateUserData,
+    deleteUserById: deleteUserById,
 };
